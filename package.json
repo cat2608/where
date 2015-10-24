@@ -1,0 +1,22 @@
+{
+  "name"        : "where",
+  "version"     : "1.0.0",
+  "description" : "Remember places with nice offers",
+  "main"        : "app.js",
+  "repository"  : {
+    "type": "git",
+    "url" : "https://github.com/cat2608/where.git"
+  },
+  "author"      : "Catalina Oyaneder <cat2608@gmail.com>",
+  "bugs"        : {
+    "url": "https://github.com/cat2608/where/issues"
+  },
+  "homepage"    : "https://github.com/cat2608/where",
+  "dependencies": {
+    "bcrypt"      : "^0.8.5",
+    "body-parser" : "^1.14.1",
+    "express"     : "^4.13.3",
+    "hope"        : "^1.0.3",
+    "mongoose"    : "^4.2.2"
+  }
+}
