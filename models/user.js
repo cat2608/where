@@ -21,16 +21,12 @@ var UserSchema = new Schema({
 });
 
 // -- Mongoose middleware -------------------------------------------------------------------------------
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   var user = this;
-
   if (!user.isModified('password')) return next();
-
   bcrypt.genSalt(5, function(error, salt) {
     if (error) return next(error);
-
     bcrypt.hash(user.password, salt, function(error, hash) {
-      if (error) return next(error);
       user.password = hash;
       next();
     });
@@ -51,6 +47,25 @@ UserSchema.statics.signup = function signup (attributes) {
       return new User(attributes).save(function (error, result) {
         return promise.done(error, result);
       });
+    }
+  });
+  return promise;
+};
+
+UserSchema.statics.login = function login (attributes) {
+  var promise = new Hope.Promise();
+  var user = this;
+  user.findOne({
+    mail: attributes.mail
+  }, function(error, user) {
+    if (user && bcrypt.compareSync(attributes.password, user.password)) {
+      return promise.done(null, user);
+    } else {
+      error = {
+        code: 403,
+        message: "Incorrect credentials."
+      };
+      return promise.done(error, null);
     }
   });
   return promise;
