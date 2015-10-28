@@ -13,8 +13,7 @@ var UserSchema = new Schema({
   },
   password  : String,
   avatar    : String,
-  created_at: String,
-  date    : {
+  created_at: {
     type   : Date,
     default: Date.now
   }
@@ -67,6 +66,23 @@ UserSchema.statics.login = function login (attributes) {
       };
       return promise.done(error, null);
     }
+  });
+  return promise;
+};
+
+UserSchema.statics.search = function search (query, limit) {
+  var promise = new Hope.Promise();
+  this.find(query).limit(limit).exec(function(error, value) {
+    if (limit === 1 && !error) {
+      if (value.length === 0) {
+        error = {
+          code: 402,
+          message: "User not found."
+        };
+      }
+      value = value[0];
+    }
+    return promise.done(error, value);
   });
   return promise;
 };

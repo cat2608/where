@@ -5,7 +5,7 @@ var mongoose        = require('mongoose');
 var bodyParser      = require('body-parser')
 var session         = require('express-session');
 
-var userController  = require('./controllers/user');
+var userController  = require('./controllers/session');
 
 // Driver MongoDB
 mongoose.connect('mongodb://localhost:27017/where');
@@ -14,8 +14,11 @@ var app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(session({ secret: 'where-session', cookie: { maxAge: 3600 }}));
-
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: 'super secret'
+}));
 // Express router
 var router = express.Router();
 
@@ -25,6 +28,9 @@ router.route('/signup')
 
 router.route('/login')
   .post(userController.login);
+
+router.route('/profile')
+  .get(userController.profile);
 
 app.use('/api', router);
 
