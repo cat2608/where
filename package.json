@@ -3,12 +3,12 @@
   "version"     : "1.0.0",
   "description" : "Remember places with nice offers",
   "main"        : "app.js",
-  "repository": {
+  "repository"  : {
     "type": "git",
     "url" : "https://github.com/cat2608/where.git"
   },
   "author": "Catalina Oyaneder <cat2608@gmail.com>",
-  "bugs": {
+  "bugs"  : {
     "url": "https://github.com/cat2608/where/issues"
   },
   "homepage"    : "https://github.com/cat2608/where",
@@ -19,6 +19,7 @@
     "express-session" : "^1.12.0",
     "hope"            : "^1.0.3",
     "jwt-simple"      : "^0.3.1",
-    "mongoose"        : "^4.2.2"
+    "mongoose"        : "^4.2.2",
+    "zenrequest"      : "^0.10.30"
   }
 }
