@@ -1,0 +1,9 @@
+# -- General Info --------------------------------------------------------------
+protocol: http
+host    : localhost
+port    : 8888
+timezone: Europe/Amsterdam
+
+# -- RESTful services ----------------------------------------------------------
+api:
+  - index
