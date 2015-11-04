@@ -1,6 +1,7 @@
 "use strict"
 
 User  = require "../common/models/user"
+Token = require "../common/helpers/token"
 
 module.exports = (server) ->
   ###
@@ -16,4 +17,7 @@ module.exports = (server) ->
         if error
           response.json message: error.message, error.code
         else
+          user.token = Token user
+          user.save()
+          response.session user.token
           response.json user

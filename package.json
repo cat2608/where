@@ -3,17 +3,21 @@
   "version"     : "0.11.3",
   "description" : "Remember nice places",
   "main"        : "zen.js",
-  "repository"  : {
+  "repository": {
     "type": "git",
     "url" : "git+https://github.com/cat2608/where.git"
   },
-  "author"  : "Catalina Oyaneder <cat2608@gmail.com>",
-  "license" : "ISC",
+  "author" : "Catalina Oyaneder <cat2608@gmail.com>",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/cat2608/where/issues"
   },
-  "homepage": "https://github.com/cat2608/where#readme",
+  "homepage"    : "https://github.com/cat2608/where#readme",
   "dependencies": {
+    "jwt-simple": "^0.3.1",
     "zenserver" : "^1.7.9"
+  },
+  "devDependencies": {
+    "zenrequest": "^0.10.30"
   }
 }
