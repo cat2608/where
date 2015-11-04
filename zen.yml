@@ -4,6 +4,9 @@ host    : localhost
 port    : 8888
 timezone: Europe/Amsterdam
 
-# -- RESTful services ----------------------------------------------------------
+# -- Environment ---------------------------------------------------------------
+environment: development
+
+# -- Endpoint ------------------------------------------------------------------
 api:
-  - index
+  - session
