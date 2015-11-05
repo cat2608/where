@@ -1,3 +1,4 @@
 config.json
+environment/
 node_modules/
 zen.error.json

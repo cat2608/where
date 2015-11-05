@@ -1,5 +1,6 @@
 "use strict"
 
+Auth  = require "../common/helpers/auth"
 User  = require "../common/models/user"
 Token = require "../common/helpers/token"
 
@@ -38,4 +39,16 @@ module.exports = (server) ->
           user.token = Token user
           user.save()
           response.session user.token
-          response.json user
+          response.json user.parse()
+
+  ###
+   * Get user profile
+   * @method  GET
+   * @return {Object} User profile details
+  ###
+  server.get "/api/profile", (request, response) ->
+    Auth(request, response).then (error, session) ->
+      if error
+        response.json message: error.message, error.code
+      else
+        response.json session.parse()

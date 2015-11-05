@@ -37,6 +37,23 @@ User.statics.login = (values) ->
       promise.done error, user
   promise
 
+User.statics.search = (query, limit = 0) ->
+  promise = new Hope.Promise()
+  @find(query).limit(limit).exec (error, value) ->
+    if limit is 1 and not error
+      error = code: 402, message: "User not found." if value.length is 0
+      value = value[0]
+    promise.done error, value
+  promise
+
 # -- Instance methods ----------------------------------------------------------
+User.methods.parse = ->
+  id          : @_id
+  username    : @username
+  mail        : @mail
+  avatar      : @avatar
+  token       : @token
+  created_at  : @created_at
+
 
 exports = module.exports = db.model "User", User
