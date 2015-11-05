@@ -1,6 +1,7 @@
 "use strict"
 
 Auth  = require "../common/helpers/auth"
+Hope  = require("zenserver").Hope
 User  = require "../common/models/user"
 Token = require "../common/helpers/token"
 
@@ -52,3 +53,24 @@ module.exports = (server) ->
         response.json message: error.message, error.code
       else
         response.json session.parse()
+
+  ###
+   * Update user profile
+   * @method  PUT
+   * @param  {String} mail: user e-mail
+   * @param  {String} mail: user e-mail
+   * @return {Object} User profile details
+  ###
+  server.put "/api/profile", (request, response) ->
+    Hope.shield([ ->
+      Auth request, response
+    , (error, session) ->
+      parameters = {}
+      for key in ["username", "location"] when request.parameters[key]?
+        parameters[key] = request.parameters[key]
+      session.updateAttributes parameters
+    ]).then (error, result) ->
+      if error
+        response.json message: error.message, error.code
+      else
+        response.json result.parse()

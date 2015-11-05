@@ -13,11 +13,11 @@ tests:
 # ------------------------------------------------------------------------------
 USERS:
   - username  : u1
-    mail      : u1@inisgina.com
+    mail      : u1@mail.com
     password  : u1
   - username  : u2
-    mail      : u2@inisgina.com
+    mail      : u2@mail.com
     password  : u2
   - username  : u3
-    mail      : u3@inisgina.com
+    mail      : u3@mail.com
     password  : u3

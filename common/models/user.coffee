@@ -11,7 +11,6 @@ User = new Schema
   avatar    : type: String, default: "image.png"
   token     : type: String
   password  : type: String
-  location  : type: String
   created_at: type: Date, default: Date.now
   updated_at: type: Date
 
@@ -47,6 +46,15 @@ User.statics.search = (query, limit = 0) ->
   promise
 
 # -- Instance methods ----------------------------------------------------------
+User.methods.updateAttributes = (attributes) ->
+  promise = new Hope.Promise()
+  @[key] = value for key, value of attributes
+  @save (error, result) ->
+    if error?.code is 11000
+      error = code: 400, message: "Username has already been taken"
+    promise.done error, result
+  promise
+
 User.methods.parse = ->
   id          : @_id
   username    : @username
