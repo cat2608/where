@@ -10,8 +10,9 @@ environment: development
 # -- Endpoint ------------------------------------------------------------------
 api:
   - session
+  - place
 
 # -- session -------------------------------------------------------------------
 session:
   expire: 1296000
-  authorization : authorization
+  authorization: authorization

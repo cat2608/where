@@ -19,6 +19,7 @@ _login = (user) -> ->
   message = "[LOGIN] #{user.mail}"
   Test "POST", "api/login", user, null, message, 200, (response) ->
     user.token = response.token
+    user.id = response.id
 
 _profile = (user) -> ->
   message = "[PROFILE] GET - #{user.mail}"
@@ -27,6 +28,7 @@ _profile = (user) -> ->
 _update = (user) -> ->
   data =
     name: "yisus"
-    bio: "Nasí katólico xk judíos habia muxos. maria mahdalena tkm (L) shavales, ai k repetir santa sena cabrones."
+    bio: """Nasí katólico xk judíos habia muxos. maria mahdalena tkm (L)
+        shavales, ai k repetir santa sena cabrones."""
   message = "[PROFILE] UPDATE -  #{user.mail}"
   Test "PUT", "api/profile", data, authorization: user.token, message, 200
