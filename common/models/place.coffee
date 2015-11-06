@@ -20,14 +20,26 @@ Place.statics.register = (values) ->
     promise.done error, value
   promise
 
+Place.statics.search = (query, limit = 0, populate = null) ->
+  promise = new Hope.Promise()
+  @find(query).limit(limit).populate(populate).exec (error, values) ->
+    if limit is 1
+      values = values[0]
+    promise.done error, values
+  promise
 # -- Instance methods ----------------------------------------------------------
 Place.methods.parse = ->
-  id      : @_id
-  user      : @user
-  name      : @name
-  address   : @address
-  phone     : @phone
-  created_at: @created_at
-  updated_at: @updated_at
+  data =
+    id        : @_id
+    name      : @name
+    address   : @address
+    phone     : @phone
+    created_at: @created_at
+    updated_at: @updated_at
+  if @user.parse?()
+    data.user = @user.parse()
+  else
+    data.user = @user
+  data
 
 exports = module.exports = db.model "Place", Place
