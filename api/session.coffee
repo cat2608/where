@@ -22,7 +22,7 @@ module.exports = (server) ->
           user.token = Token user
           user.save()
           response.session user.token
-          response.json user
+          response.json user.parse()
 
   ###
    * Login user
@@ -48,11 +48,11 @@ module.exports = (server) ->
    * @return {Object} User profile details
   ###
   server.get "/api/profile", (request, response) ->
-    Auth(request, response).then (error, session) ->
+    Auth(request, response).then (error, result) ->
       if error
         response.json message: error.message, error.code
       else
-        response.json session.parse()
+        response.json result.parse()
 
   ###
    * Update user profile

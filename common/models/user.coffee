@@ -7,9 +7,13 @@ bcrypt    = require "bcrypt"
 
 User = new Schema
   username  : type: String, trim  : true
+  name      : type: String
   mail      : type: String, unique: true
   avatar    : type: String, default: "image.png"
   token     : type: String
+  twitter   :
+    access_token: type: String
+    oauth_secret: type: String
   password  : type: String
   created_at: type: Date, default: Date.now
   updated_at: type: Date
@@ -19,28 +23,30 @@ User.statics.signup = (values) ->
   promise = new Hope.Promise()
   @findOne(mail: values.mail).exec (error, value) ->
     return promise.done code: 409, message: "Mail already in use" if value?
-    salt = bcrypt.genSaltSync 10
-    values.password = bcrypt.hashSync values.password, salt
+    if not values.twitter
+      salt = bcrypt.genSaltSync 10
+      values.password = bcrypt.hashSync values.password, salt
     user = db.model "User", User
-    new user(values).save (error, value) -> promise.done error, value
+    new user(values).save (error, value) ->
+      promise.done error, value
   promise
 
 User.statics.login = (values) ->
   promise = new Hope.Promise()
-  @findOne mail: values.mail, (error, user) ->
-    valid = bcrypt.compareSync values.password, user.password
-    if user is null or not valid
-      error = code: 401, message: "Incorrect username or password."
+  @findOne mail: values.mail, (error, value) ->
+    if value is null or not bcrypt.compareSync values.password, value.password
+      error = code: 401, message: "The username and password do not match."
       promise.done error
     else
-      promise.done error, user
+      promise.done error, value
   promise
 
 User.statics.search = (query, limit = 0) ->
   promise = new Hope.Promise()
   @find(query).limit(limit).exec (error, value) ->
     if limit is 1 and not error
-      error = code: 402, message: "User not found." if value.length is 0
+      if value.length is 0
+        error = code: 402, message: "User not found."
       value = value[0]
     promise.done error, value
   promise

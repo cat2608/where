@@ -4,14 +4,12 @@ Hope = require("zenserver").Hope
 jwt  = require "jwt-simple"
 User = require "../models/user"
 
-module.exports = (request, response, query = null) ->
+module.exports = (request, response) ->
   promise = new Hope.Promise()
   if request.session
     session = jwt.decode request.session, ZEN.token
     if session.expire > new Date()
-      filter = query or {}
-      filter["_id"] = session.id
-      User.search(filter, limit = 1).then (error, user) ->
+      User.search(_id: session.id, limit = 1).then (error, user) ->
         unless user?
           do response.unauthorized
         else
