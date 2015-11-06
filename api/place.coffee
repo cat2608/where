@@ -6,8 +6,13 @@ Place = require "../common/models/place"
 
 module.exports = (server) ->
   server.post "/api/place", (request, response) ->
-    if request.required ["user", "name"]
-      Place.register(request.parameters).then (error, result) ->
+    if request.required ["name"]
+      Hope.shield([ ->
+        Auth request, response
+      , (error, session) ->
+        request.parameters.user = session._id
+        Place.register request.parameters
+      ]).then (error, result) ->
         if error
           response.json response.json message: error.message, error.code
         else

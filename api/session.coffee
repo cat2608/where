@@ -67,9 +67,8 @@ module.exports = (server) ->
     , (error, session) ->
       parameters = {}
       attributes = ["username", "name", "avatar", "bio"]
-      for key in attributes # when request.parameters[key]?
-        if request.parameters[key]?
-          parameters[key] = request.parameters[key]
+      for key in attributes when request.parameters[key]?
+        parameters[key] = request.parameters[key]
       session.updateAttributes parameters
     ]).then (error, result) ->
       if error

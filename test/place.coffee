@@ -4,14 +4,13 @@ Test = require("zenrequest").Test
 
 module.exports = ->
   tasks = []
-  for place in ZENrequest.PLACES
+  for place in ZENrequest.PLACES[0..0]
     tasks.push _register ZENrequest.USERS[2], place
   tasks.push _myPlaces ZENrequest.USERS[2]
   tasks
 
 # PROMISES ---------------------------------------------------------------------
 _register = (user, place) -> ->
-  place.user = user.id
   message = "[PLACE] REGISTER - #{user.mail} creates #{place.name}"
   Test "POST", "api/place", place, authorization: user.token, message, 200
 
