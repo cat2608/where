@@ -10,6 +10,7 @@ User = new Schema
   name      : type: String
   mail      : type: String, unique: true
   avatar    : type: String, default: "image.png"
+  bio       : type: String
   token     : type: String
   twitter   :
     access_token: type: String
@@ -54,7 +55,8 @@ User.statics.search = (query, limit = 0) ->
 # -- Instance methods ----------------------------------------------------------
 User.methods.updateAttributes = (attributes) ->
   promise = new Hope.Promise()
-  @[key] = value for key, value of attributes
+  for key, value of attributes
+    @[key] = value
   @save (error, result) ->
     if error?.code is 11000
       error = code: 400, message: "Username has already been taken"

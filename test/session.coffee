@@ -8,6 +8,7 @@ module.exports = ->
     tasks.push _signup user
     tasks.push _login user
   tasks.push _profile ZENrequest.USERS[1]
+  tasks.push _update ZENrequest.USERS[2]
   tasks
 
 # PROMISES ---------------------------------------------------------------------
@@ -20,5 +21,12 @@ _login = (user) -> ->
     user.token = response.token
 
 _profile = (user) -> ->
-  message = "[PROFILE] #{user.mail}"
+  message = "[PROFILE] GET - #{user.mail}"
   Test "GET", "api/profile", null, authorization: user.token, message, 200
+
+_update = (user) -> ->
+  data =
+    name: "yisus"
+    bio: "Nasí katólico xk judíos habia muxos. maria mahdalena tkm (L) shavales, ai k repetir santa sena cabrones."
+  message = "[PROFILE] UPDATE -  #{user.mail}"
+  Test "PUT", "api/profile", data, authorization: user.token, message, 200
